@@ -4,10 +4,12 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cloud.proj.sentiment.SentimentWorker;
+
 import sun.misc.Signal;
 import sun.misc.SignalHandler;
 
-import com.cloud.proj.sentiment.SentimentWorker;
+
 
 public class TweetRetriever {
 	private static int batchSize = 10;
