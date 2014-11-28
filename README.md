@@ -15,3 +15,5 @@ This a standalone project run as a daemon which performs the following tasks
 4. Update the twitter data with sentiment value and publish to Amazon SNS
 
 The data published to SNS is read from a servlet hosted at http://cloud-assgn2.elasticbeanstalk.com. The web application is developed as a separate project and the code for it is at https://github.com/AnnapurnaVemuri/TwitMap-1
+
+The TweetFeeder daemon is deployed in Amazon EC2 instance.
