@@ -27,7 +27,7 @@ public class SNSSender {
 	    	throw new AmazonClientException("Cannot load the credentials from the credential profiles file. " +
 	                    "Please make sure that your credentials file is at the correct location, and is in valid format.", e);
 	    }
-        AmazonSNSClient service = new AmazonSNSClient(credentials);
+        service = new AmazonSNSClient(credentials);
         createReq = new CreateTopicRequest().withName(topic);
         createRes = service.createTopic(createReq);
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cloud.proj.commons.TweetConstants;
 import com.cloud.proj.message.queue.SQSReceiver;
+import com.cloud.proj.notification.SNSSender;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -24,7 +25,11 @@ public class SentimentWorker implements Runnable {
 	
 	private void runSentimentOnMessages() {
 		while(!isStop) {
+			try {
 			List<JsonObject> messages = reciever.receiveMessages();
+			if (messages == null) {
+				continue;
+			}
 			for (JsonObject message: messages) {
 				String status = message.get("status").getAsString();
 				if (status != null && status.length() > 0) {
@@ -35,12 +40,22 @@ public class SentimentWorker implements Runnable {
 						e.printStackTrace();
 					}
 				}
+				message.remove("status");
 			}
 			JsonArray arr = new JsonArray();
 			for (JsonObject m : messages) {
 				arr.add(m);
 			}
 			String notificationMsg = arr.toString();
+			SNSSender sender=new SNSSender("AllTopics3");
+			
+			sender.sendNotificationMessage(notificationMsg);
+			
+				Thread.sleep(10000);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}	
 	}
 

@@ -18,7 +18,9 @@ public class SQSReceiver extends SimpleQueueService {
 	}
 	
 	public List<JsonObject> receiveMessages() {
-		List<JsonObject> messageObjList = new ArrayList<JsonObject>();
+		List<JsonObject> messageObjList =null;
+		try{
+		messageObjList = new ArrayList<JsonObject>();
 		System.out.println("Receiving messages from " + queueName + "\n");
         ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueUrl);
         List<Message> messages = sqs.receiveMessage(receiveMessageRequest).getMessages();
@@ -36,6 +38,9 @@ public class SQSReceiver extends SimpleQueueService {
             String messageRecieptHandle = message.getReceiptHandle();
             sqs.deleteMessage(new DeleteMessageRequest(queueUrl, messageRecieptHandle)); 	
         }
+		}catch(Exception e){
+			e.printStackTrace();
+		}
         return messageObjList;
 	}
 }

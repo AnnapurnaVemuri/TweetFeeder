@@ -24,7 +24,7 @@ public class TweetRetriever {
 			purgeBatchSize = Integer.parseInt(args[1]);	
 		}
 		launchTweetGetter();
-		launchTweetPurger();
+		//launchTweetPurger();
 		launchSentimentWorkers(2);
 		
 		Signal.handle(new Signal("TERM"), new SignalHandler() {
