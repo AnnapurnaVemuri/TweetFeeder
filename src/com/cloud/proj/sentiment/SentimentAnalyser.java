@@ -60,7 +60,11 @@ public class SentimentAnalyser {
 		String resp = response.toString();
 		Document doc = XmlUtil.loadXML(resp);
 		Node nl = XmlUtil.getNode(doc, "/results/docSentiment/score");
-		Float sentiment = Float.parseFloat(nl.getTextContent());
+		Float sentiment;
+		if(nl==null)
+			sentiment=(float) 0.0;
+		else
+			 sentiment = Float.parseFloat(nl.getTextContent());
 		return sentiment;
 	}
 }

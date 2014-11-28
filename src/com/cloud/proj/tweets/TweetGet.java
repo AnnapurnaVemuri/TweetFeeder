@@ -25,7 +25,7 @@ public class TweetGet implements Runnable {
 	private List<Tweets> tweetsList;
 	private DataBaseHelper helper;
 	private SQSSender messageSender;
-	private final String[] keywords = {"beiber","love","ebola","modi","1989","girl","suarez","apple","lol","god","boy","baby"};
+	private final String[] keywords = {"the","lol","beiber","love","ebola","modi","1989","girl","suarez","apple","lol","god","boy","baby"};
 	
 	public TweetGet(int batchSize) {
 		this.batchSize = batchSize;
@@ -72,12 +72,16 @@ public class TweetGet implements Runnable {
           public void onStatus(Status status) {
             if (status.getGeoLocation() == null)
             	return;
-            for (String filter : keywords) {
+            System.out.println("Got new status");
+           for (String filter : keywords) {
             	if( (status.getText().toLowerCase()).contains(filter) ) {
             		Tweets t = new Tweets(status.getUser().getId(),status.getUser().getScreenName(),status.getText(),status.getGeoLocation().getLatitude(),status.getGeoLocation().getLongitude(), filter);
             		tweetsList.add(t);
             	}
             }
+           Tweets t = new Tweets(status.getUser().getId(),status.getUser().getScreenName(),status.getText(),status.getGeoLocation().getLatitude(),status.getGeoLocation().getLongitude(), "dummy");
+   		tweetsList.add(t);
+   		
             if (tweetsList.size() == batchSize) {
             	updateDBAndAddToQueue();
             	tweetsList.clear();
@@ -86,7 +90,7 @@ public class TweetGet implements Runnable {
 
           @Override
           public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-            System.out.println("Got a status deletion notice id:" + statusDeletionNotice.getStatusId());
+            ///System.out.println("Got a status deletion notice id:" + statusDeletionNotice.getStatusId());
           }
 
           @Override

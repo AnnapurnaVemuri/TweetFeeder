@@ -9,8 +9,10 @@ public class SQSSender extends SimpleQueueService {
 	}
 
 	public void sendMessage(String message) {	
+		//
+		int i=0;
 	    System.out.println("Sending a message to "+queueName);
-	    sqs.sendMessage(new SendMessageRequest(queueUrl, message));       
+	    sqs.sendMessage(new SendMessageRequest(queueUrl,message));       
 	}
 }
 
