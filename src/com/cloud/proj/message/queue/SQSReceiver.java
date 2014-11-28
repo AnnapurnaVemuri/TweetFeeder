@@ -18,28 +18,39 @@ public class SQSReceiver extends SimpleQueueService {
 	}
 	
 	public List<JsonObject> receiveMessages() {
-		List<JsonObject> messageObjList =null;
+	List<JsonObject> messageObjList =null;
+	List<Message> messages=new ArrayList<Message>();
 		try{
 		messageObjList = new ArrayList<JsonObject>();
 		System.out.println("Receiving messages from " + queueName + "\n");
         ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueUrl);
-        List<Message> messages = sqs.receiveMessage(receiveMessageRequest).getMessages();
+        messages = sqs.receiveMessage(receiveMessageRequest).getMessages();
         Gson gson = new Gson();
         for (Message message : messages) {
+        	System.out.println(message.getBody());
         	JsonObject[] objList = gson.fromJson(message.getBody(), JsonObject[].class);
         	for (JsonObject obj : objList) {
         		messageObjList.add(obj);
+        		System.out.println(obj.toString());
         	}
         }
+		
 
         // Delete a message
         System.out.println("Deleting the messages\n");
-        for (Message message : messages) {
-            String messageRecieptHandle = message.getReceiptHandle();
-            sqs.deleteMessage(new DeleteMessageRequest(queueUrl, messageRecieptHandle)); 	
-        }
+       
 		}catch(Exception e){
 			e.printStackTrace();
+			
+		}
+		try{
+		 for (Message message : messages) {
+	            String messageRecieptHandle = message.getReceiptHandle();
+	            sqs.deleteMessage(new DeleteMessageRequest(queueUrl, messageRecieptHandle)); 	
+	        }
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Could not delete messages");
 		}
         return messageObjList;
 	}

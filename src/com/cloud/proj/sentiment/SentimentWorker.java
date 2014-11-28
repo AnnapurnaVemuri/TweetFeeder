@@ -47,7 +47,7 @@ public class SentimentWorker implements Runnable {
 				arr.add(m);
 			}
 			String notificationMsg = arr.toString();
-			SNSSender sender=new SNSSender("AllTopics3");
+			SNSSender sender=new SNSSender("AllTopics4");
 			
 			sender.sendNotificationMessage(notificationMsg);
 			

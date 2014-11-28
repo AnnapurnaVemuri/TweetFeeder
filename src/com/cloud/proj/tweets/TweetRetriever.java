@@ -10,7 +10,7 @@ import sun.misc.SignalHandler;
 import com.cloud.proj.sentiment.SentimentWorker;
 
 public class TweetRetriever {
-	private static int batchSize = 10;
+	private static int batchSize = 1;
 	private static int purgeBatchSize = 10;
 	private static TweetGet getTweets = null;
 	private static TweetPurger purgeTweets = null;
